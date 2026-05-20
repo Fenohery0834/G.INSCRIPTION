@@ -19,7 +19,12 @@ Personne saisirPersonne()
 
     cout << "Nom : "; cin >> nom;
     cout << "Prénom : "; cin >> prenom;
-    cout << "Âge : "; cin >> age;
+    cout << "Âge : "; 
+    while (!(cin >> age) || age < 1 || age > 120) {
+        cout << "[!] Âge invalide (1-120). Réessayez : ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
     cout << "Email : "; cin >> email;
     
     return Personne(nom, prenom, age, email);
@@ -32,7 +37,7 @@ int main()
 
     while (choix != 0) 
     {
-        cout << "\n--- MENU DE GESTION ---\n";
+        cout << "\n MENU De GESTION \n";
         cout << "1. Afficher la liste\n";
         cout << "2. Ajouter au début\n";
         cout << "3. Ajouter à la fin\n";
@@ -50,6 +55,7 @@ int main()
             viderBuffer();
             continue;
         }
+        viderBuffer(); // vide le '\n' résiduel après lecture du choix
 
         switch (choix) 
         {
@@ -67,13 +73,15 @@ int main()
                 event.ajouterFin(saisirPersonne());
                 break;
 
-            case 4: {
+            case 4: 
+            {
                 int pos;
                 cout << "\nSaisie de la personne :\n";
                 Personne p = saisirPersonne();
                 cout << "Position d'insertion (0 = début) : ";
                 cin >> pos;
-                try {
+                try 
+                {
                     event.insererPosition(p, pos);
                 } catch (const exception& e) {
                     cout << "Erreur : " << e.what() << endl;
