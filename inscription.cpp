@@ -1,6 +1,7 @@
 #include "inscription.hpp"
 #include <algorithm>
 #include <stdexcept>
+#include <vector>
 #include <iomanip>
 
 
@@ -88,24 +89,39 @@ void Inscription::desabonner(const std::string& email)
 
 void Inscription::afficherListe() const 
 {
-    std::cout << "\n========================================\n";
-    std::cout << "  Liste des inscrits – " << nomEvenement << "\n";
-    std::cout << "  Nombre d'inscrits : " << inscrits.size() << "\n";
-    std::cout << "========================================\n";
-    std::cout << "| " << std::left
-              << std::setw(15) << "Prénom"
-              << std::setw(15) << "Nom"
-              << std::setw(5)  << "Âge"
-              << std::setw(25) << "Email"
-              << "|\n";
-    std::cout << "+-----------------------------------------------+\n";
+    const auto bord = [](const std::string& gauche,
+                         const std::string& intersection,
+                         const std::string& droite,
+                         const std::vector<int>& largeurs) {
+        const std::string trait = u8"─";
+        std::string ligne = gauche;
+        for (std::size_t i = 0; i < largeurs.size(); ++i) {
+            for (int j = 0; j < largeurs[i]; ++j) {
+                ligne += trait;
+            }
+            ligne += (i + 1 < largeurs.size() ? intersection : droite);
+        }
+        return ligne;
+    };
 
-    
+    const std::vector<int> colonnes = {15, 15, 5, 25};
+
+    std::cout << "\n  Liste des inscrits – " << nomEvenement << "\n";
+    std::cout << "  Nombre d'inscrits : " << inscrits.size() << "\n";
+    std::cout << bord(u8"┌", u8"┬", u8"┐", colonnes) << "\n";
+    std::cout << "│ " << std::left
+              << std::setw(13) << "Prénom" << " │ "
+              << std::setw(13) << "Nom"    << " │ "
+              << std::setw(3)  << "Âge"    << " │ "
+              << std::setw(23) << "Email"  << " │\n";
+    std::cout << bord(u8"├", u8"┼", u8"┤", colonnes) << "\n";
+
     for (auto cit = inscrits.cbegin(); cit != inscrits.cend(); ++cit) 
     {
         cit->afficher();
     }
-    std::cout << "========================================\n\n";
+
+    std::cout << bord(u8"└", u8"┴", u8"┘", colonnes) << "\n\n";
 }
 
 int Inscription::nombreInscrits() const {
@@ -123,6 +139,7 @@ bool Inscription::estInscrit(const std::string& email) const
 
 
 
+//std::list<Personne>::iterator       Inscription::begin()        { return inscrits.begin(); }
 std::list<Personne>::iterator       Inscription::begin()        { return inscrits.begin(); }
 std::list<Personne>::iterator       Inscription::end()          { return inscrits.end(); }
 std::list<Personne>::const_iterator Inscription::cbegin() const { return inscrits.cbegin(); }
