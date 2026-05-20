@@ -30,10 +30,11 @@ public:
     int  nombreInscrits()   const;
     bool estInscrit(const std::string& email) const;
 
-    //Itérateurs expo   ccès externe) e>::iterator       begin();
+    // Itérateurs (accès externe)
+    std::list<Personne>::iterator       begin();
     std::list<Personne>::iterator       end();
     std::list<Personne>::const_iterator cbegin() const;
     std::list<Personne>::const_iterator cend()   const;
 };
 
-if 
+#endif 
