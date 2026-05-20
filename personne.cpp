@@ -22,12 +22,11 @@ void Personne::setEmail(const std::string& e)  { email = e; }
 
 
 void Personne::afficher() const {
-    std::cout << "| " << std::left
-              << std::setw(15) << prenom
-              << std::setw(15) << nom
-              << std::setw(5)  << age
-              << std::setw(25) << email
-              << "|" << std::endl;
+    std::cout << "│ " << std::left
+              << std::setw(13) << prenom << " │ "
+              << std::setw(13) << nom    << " │ "
+              << std::setw(3)  << age    << " │ "
+              << std::setw(23) << email  << " │" << std::endl;
 }
 
 
